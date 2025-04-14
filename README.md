@@ -135,7 +135,7 @@ Develop a full-featured, responsive web application for efficient and secure fil
 43. Ensure full mobile/desktop responsiveness.
 
 #### Day 19: Integration Testing & Optimization
-44. Perform integration tests (frontend/backend).
+44. Perform integration tests (Frontend/Backend).
 45. Optimize API/database performance.
 
 #### Day 20: Deployment
