@@ -29,7 +29,6 @@ Develop a full-featured, responsive web application for efficient and secure fil
 - **Database**: MongoDB (via Mongoose ODM)
 - **Authentication**: JWT-based & Google OAuth
 
-
 ### ☁️ Deployment & DevOps
 - **Frontend Deployment**: Vercel / Netlify
 - **Backend Deployment**: Railway / Render / DigitalOcean
