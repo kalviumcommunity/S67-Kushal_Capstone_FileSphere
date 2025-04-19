@@ -21,7 +21,6 @@ Develop a full-featured, responsive web application for efficient and secure fil
 ### 🌐 Frontend
 - **Framework**: React.js (with Vite)
 - **UI Libraries**: Tailwind CSS / ShadCN UI
-- **Maps Integration** (Conceptual): Leaflet.js / Google Maps API
 - **File Storage**: Firebase Storage / Cloudinary
 - **Authentication**: NextAuth.js / Firebase Auth (JWT & Google OAuth)
 
@@ -29,7 +28,6 @@ Develop a full-featured, responsive web application for efficient and secure fil
 - **Framework**: Node.js + Express.js
 - **Database**: MongoDB (via Mongoose ODM)
 - **Authentication**: JWT-based & Google OAuth
-- **API Integrations** (Conceptual): Google Maps API, eBird API, iNaturalist API
 
 ### ☁️ Deployment & DevOps
 - **Frontend Deployment**: Vercel / Netlify
