@@ -1,5 +1,8 @@
 const UserModel  = require('../Models/User');
+const bcrypt = require('bcrypt');
 
+
+//User Data
 const getOne = async (req, res) => {
     const { email, password } = req.body;
 
@@ -8,10 +11,15 @@ const getOne = async (req, res) => {
     }
 
     try {
-        const user = await UserModel.findOne({ email, password });
+        const user = await UserModel.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ Message: 'The user not found!' });
+        }
+
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatch) {
+            return res.status(401).json({ Message: 'Invalid credentials!' });
         }
 
         res.status(200).json({ Message: 'User Found!', Userdata: user });
@@ -21,6 +29,30 @@ const getOne = async (req, res) => {
     }
 };
 
+const postOne = async (req, res) => {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ Message: "All fields are required" });
+    }
+
+    try {
+        if(await UserModel.findOne({ email })) {
+            return res.status(400).json({ Message: 'User already exists!' });
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const user = await UserModel.create({ name, email, password: hashedPassword });
+        res.status(200).json({ Message: 'User Created!', Userdata: user });
+    } catch (err) {
+        console.error('Error finding user:', err);
+        res.status(500).json({ Message: 'There was a server error.' });
+    }
+}
+
 module.exports = {
-    getOne
+    getOne,
+    postOne
 };
