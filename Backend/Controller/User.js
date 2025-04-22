@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 
 
 //User Data
+//done with Database read and write operations performed
+
 const getOne = async (req, res) => {
     const { email, password } = req.body;
 
@@ -46,6 +48,7 @@ const postOne = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const user = await UserModel.create({ name, email, password: hashedPassword });
+
         const { password: _, ...userWithoutPassword } = user._doc;
         res.status(201).json({ Message: 'User Created!', Userdata: userWithoutPassword });
 
