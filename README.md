@@ -27,7 +27,7 @@ Develop a full-featured, responsive web application for efficient and secure fil
 ### 🔧 Backend
 - **Framework**: Node.js + Express.js
 - **Database**: MongoDB (via Mongoose ODM)
-- **Authentication**Integrations: JWT-based & Google OAuth
+- **Authentication**: JWT-based & Google OAuth
 
 ### ☁️ Deployment & DevOps
 - **Frontend Deployment**: Vercel / Netlify

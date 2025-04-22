@@ -22,7 +22,9 @@ const getOne = async (req, res) => {
             return res.status(401).json({ Message: 'Invalid credentials!' });
         }
 
-        res.status(200).json({ Message: 'User Found!', Userdata: user });
+        const { password: _, ...userWithoutPassword } = user._doc;
+        res.status(200).json({ Message: 'User Found!', Userdata: userWithoutPassword });
+
     } catch (err) {
         console.error('Error finding user:', err);
         res.status(500).json({ Message: 'There was a server error.' });
@@ -40,19 +42,65 @@ const postOne = async (req, res) => {
         if(await UserModel.findOne({ email })) {
             return res.status(400).json({ Message: 'User already exists!' });
         }
-
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const user = await UserModel.create({ name, email, password: hashedPassword });
-        res.status(200).json({ Message: 'User Created!', Userdata: user });
+        const { password: _, ...userWithoutPassword } = user._doc;
+        res.status(201).json({ Message: 'User Created!', Userdata: userWithoutPassword });
+
     } catch (err) {
         console.error('Error finding user:', err);
         res.status(500).json({ Message: 'There was a server error.' });
     }
 }
 
+
+const putOne = async (req, res) => {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ Message: "All fields are required" });
+    }
+
+    try {
+        const user = await UserModel.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ Message: "User not found" });
+        }
+
+        const isSameName = user.name === name;
+        const isSameEmail = user.email === email;
+        const isSamePassword = await bcrypt.compare(password, user.password);
+
+        if (isSameName && isSameEmail && isSamePassword) {
+            return res.status(200).json({ Message: "All input are same", Userdata: {
+                name: user.name,
+                email: user.email
+            }});
+        }
+
+        user.name = name;
+        user.email = email;
+
+        const saltRounds = 10;
+        user.password = await bcrypt.hash(password, saltRounds);
+
+        await user.save();
+
+        const { password: _, ...userWithoutPassword } = user._doc;
+        res.status(200).json({ Message: 'User Updated!', Userdata: userWithoutPassword });
+
+    } catch (err) {
+        console.error('Error updating user:', err);
+        res.status(500).json({ Message: 'There was a server error.' });
+    }
+};
+
+
 module.exports = {
     getOne,
-    postOne
+    postOne,
+    putOne
 };
