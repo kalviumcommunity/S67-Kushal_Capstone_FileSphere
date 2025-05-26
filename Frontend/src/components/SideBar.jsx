@@ -17,7 +17,6 @@ function FileSphere() {
 
   return (
     <div className="w-64 h-screen bg-slate-200 flex flex-col">
-      {/* Header */}
       <div className="p-4 border-b border-gray-300">
         <Link to="/" className="flex items-center gap-2">
           <img src={folder} alt="folder" className="w-5 h-5" />
